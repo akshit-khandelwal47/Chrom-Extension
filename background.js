@@ -27,12 +27,16 @@ chrome.runtime.onMessage.addListener(data => {
                 const transaction = db.transaction('MyObjectStore', 'readwrite');
                 const objectStore = transaction.objectStore('MyObjectStore');
         
-                const dataToStore = { id: prefs.locationId};
+                const dataToStore = { id: prefs.locationId, startDate: prefs.startDate, endDate: prefs.endDate};
                 const addRequest = objectStore.add(dataToStore);
         
                 addRequest.onsuccess = function(event) {
                 console.log('Data added successfully. Generated ID:', event.target.result);
                 };
+
+                addRequest.onerror = function(event) {
+                    console.error('Error adding data:', event.target.error);
+                  };
             
       
     }
